@@ -26,6 +26,7 @@ model Resume {
   jobTitle       String?          @map("job_title")
   title          String?
   description    String?
+  skills         String[]
   photoUrl       String?          @map("photo_url")
   colorHex       String           @default("#000000") @map("color_hex")
   borderStryle   String           @default("squircle") @map("border_style")
