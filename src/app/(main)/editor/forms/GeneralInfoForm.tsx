@@ -11,15 +11,40 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { TResumeFormProps } from "@/lib/types";
+import { useEffect } from "react";
+import { debounce } from "@/lib/debounce";
 
-const GeneralInfoForm = () => {
+const GeneralInfoForm = ({ resume, setResumeData }: TResumeFormProps) => {
   const form = useForm<TGeneralInfoForm>({
+    mode: "onChange",
     resolver: zodResolver(generalInfoFormSchema),
     defaultValues: {
-      title: "",
-      description: "",
+      title: resume.title || "",
+      description: resume.description || "",
     },
   });
+
+  const generalInfo = form.watch();
+
+  useEffect(() => {
+    const validateForm = debounce<TGeneralInfoForm>(async (values) => {
+      const isValid = await form.trigger();
+      if (!isValid) return;
+
+      setResumeData({ ...values, ...generalInfo });
+    }, 300);
+
+    const { unsubscribe } = form.watch((values) => {
+      validateForm(values);
+    });
+
+    return () => {
+      unsubscribe();
+      validateForm.cancel(); // Cancel pending debounced calls
+    };
+  }, [form, generalInfo, setResumeData]);
+
   return (
     <div className="mx-auto max-w-xl space-y-6">
       <div className="space-y-1.5 text-center">
