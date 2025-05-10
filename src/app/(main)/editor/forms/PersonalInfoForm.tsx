@@ -30,14 +30,12 @@ const PersonalInfoForm = ({ resume, setResumeData }: TResumeFormProps) => {
     },
   });
 
-  const generalInfo = form.watch();
-
   useEffect(() => {
     const validateForm = debounce<TPersonalInfoForm>(async (values) => {
       const isValid = await form.trigger();
       if (!isValid) return;
 
-      setResumeData({ ...values, ...generalInfo });
+      setResumeData({ ...resume, ...values });
     }, 300);
 
     const { unsubscribe } = form.watch((values) => {
@@ -48,7 +46,7 @@ const PersonalInfoForm = ({ resume, setResumeData }: TResumeFormProps) => {
       unsubscribe();
       validateForm.cancel(); // Cancel pending debounced calls
     };
-  }, [form, generalInfo, setResumeData]);
+  }, [form, resume, setResumeData]);
 
   return (
     <div className="mx-auto max-w-xl space-y-6">

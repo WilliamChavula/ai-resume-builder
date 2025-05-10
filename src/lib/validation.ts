@@ -28,7 +28,7 @@ export const personalInfoFormSchema = z.object({
   city: optionalString,
   country: optionalString,
   phone: optionalString,
-  email: z.string().email({ message: "Invalid email address" }).optional(),
+  email: z.string().optional(),
 });
 
 export const resumeFormSchema = z.object({

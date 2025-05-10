@@ -9,7 +9,17 @@ import { useState } from "react";
 import { TResumeFormValues } from "@/lib/validation";
 
 const ResumeEditor = () => {
-  const [resumeData, setResumeData] = useState<TResumeFormValues>({});
+  const [resumeData, setResumeData] = useState<TResumeFormValues>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    city: "",
+    country: "",
+    description: "",
+    jobTitle: "",
+    phone: "",
+    title: "",
+  });
   const params = useSearchParams();
   const currentStep = params.get("step") || steps[0].key;
 
@@ -44,7 +54,9 @@ const ResumeEditor = () => {
             )}
           </div>
           <div className="grow md:border-r" />
-          <div className="hidden w-1/2 md:flex">Right</div>
+          <div className="hidden w-1/2 md:flex">
+            <pre>{JSON.stringify(resumeData, null, 2)}</pre>
+          </div>
         </div>
       </main>
       <Footer currentStep={currentStep} setCurrentStep={setStep} />
