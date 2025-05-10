@@ -3,6 +3,7 @@ import GeneralInfoForm from "@/app/(main)/editor/forms/GeneralInfoForm";
 import PersonalInfoForm from "@/app/(main)/editor/forms/PersonalInfoForm";
 import WorkExperienceForm from "@/app/(main)/editor/forms/WorkExperienceForm";
 import { TResumeFormProps } from "@/lib/types";
+import EducationForm from "@/app/(main)/editor/forms/EducationForm";
 
 export const steps: {
   title: string;
@@ -23,5 +24,10 @@ export const steps: {
     title: "Work Experience",
     component: WorkExperienceForm,
     key: "work-experience",
+  },
+  {
+    title: "Education",
+    component: EducationForm,
+    key: "education",
   },
 ];
