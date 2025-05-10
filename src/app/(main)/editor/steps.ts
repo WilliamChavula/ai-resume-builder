@@ -1,6 +1,7 @@
 import { ComponentType } from "react";
 import GeneralInfoForm from "@/app/(main)/editor/forms/GeneralInfoForm";
 import PersonalInfoForm from "@/app/(main)/editor/forms/PersonalInfoForm";
+import WorkExperienceForm from "@/app/(main)/editor/forms/WorkExperienceForm";
 import { TResumeFormProps } from "@/lib/types";
 
 export const steps: {
@@ -17,5 +18,10 @@ export const steps: {
     title: "Personal Info",
     component: PersonalInfoForm,
     key: "personal-info",
+  },
+  {
+    title: "Work Experience",
+    component: WorkExperienceForm,
+    key: "work-experience",
   },
 ];

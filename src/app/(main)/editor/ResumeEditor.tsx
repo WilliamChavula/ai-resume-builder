@@ -9,17 +9,7 @@ import { useState } from "react";
 import { TResumeFormValues } from "@/lib/validation";
 
 const ResumeEditor = () => {
-  const [resumeData, setResumeData] = useState<TResumeFormValues>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    city: "",
-    country: "",
-    description: "",
-    jobTitle: "",
-    phone: "",
-    title: "",
-  });
+  const [resumeData, setResumeData] = useState<TResumeFormValues>({});
   const params = useSearchParams();
   const currentStep = params.get("step") || steps[0].key;
 

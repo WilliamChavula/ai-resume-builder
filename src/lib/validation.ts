@@ -31,13 +31,29 @@ export const personalInfoFormSchema = z.object({
   email: z.string().optional(),
 });
 
+export const workExperienceSchema = z.object({
+  workExperience: z
+    .array(
+      z.object({
+        position: optionalString,
+        company: optionalString,
+        startDate: optionalString,
+        endDate: optionalString,
+        description: optionalString,
+      }),
+    )
+    .optional(),
+});
+
 export const resumeFormSchema = z.object({
   ...generalInfoFormSchema.shape,
   ...personalInfoFormSchema.shape,
+  ...workExperienceSchema.shape,
 });
 
 export type TGeneralInfoForm = z.infer<typeof generalInfoFormSchema>;
 export type TPersonalInfoForm = z.infer<typeof personalInfoFormSchema>;
+export type TWorkExperienceForm = z.infer<typeof workExperienceSchema>;
 export type TResumeFormValues = Omit<
   z.infer<typeof resumeFormSchema>,
   "photo"
