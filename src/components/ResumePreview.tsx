@@ -48,8 +48,17 @@ type ResumeSectionProps = {
 };
 
 const PersonalInfoHeader = ({ resume }: ResumeSectionProps) => {
-  const { photo, firstName, lastName, jobTitle, city, country, phone, email } =
-    resume;
+  const {
+    photo,
+    firstName,
+    lastName,
+    jobTitle,
+    city,
+    country,
+    phone,
+    email,
+    colorHex,
+  } = resume;
 
   const [photoSrc, setPhotoSrc] = useState(photo instanceof File ? "" : photo);
 
@@ -75,10 +84,22 @@ const PersonalInfoHeader = ({ resume }: ResumeSectionProps) => {
       )}
       <div className="space-y-2.5">
         <div className="space-y-1">
-          <p className="text-3xl font-bold">
+          <p
+            className="text-3xl font-bold"
+            style={{
+              color: colorHex,
+            }}
+          >
             {firstName} {lastName}
           </p>
-          <p className="font-medium">{jobTitle}</p>
+          <p
+            className="font-medium"
+            style={{
+              color: colorHex,
+            }}
+          >
+            {jobTitle}
+          </p>
         </div>
         <p className="text-xs text-gray-500">
           {city}
@@ -92,14 +113,28 @@ const PersonalInfoHeader = ({ resume }: ResumeSectionProps) => {
   );
 };
 
-const SummarySection = ({ resume: { summary } }: ResumeSectionProps) => {
+const SummarySection = ({
+  resume: { summary, colorHex },
+}: ResumeSectionProps) => {
   if (!summary) return null;
 
   return (
     <section>
-      <hr className="border-2" />
+      <hr
+        className="border-2"
+        style={{
+          borderColor: colorHex,
+        }}
+      />
       <div className="break-inside-avoid space-y-3">
-        <p className="mt-1 text-lg font-bold">Professional Summary</p>
+        <p
+          className="mt-1 text-lg font-bold"
+          style={{
+            color: colorHex,
+          }}
+        >
+          Professional Summary
+        </p>
         <div className="text-sm whitespace-pre-line">{summary}</div>
       </div>
     </section>
@@ -107,7 +142,7 @@ const SummarySection = ({ resume: { summary } }: ResumeSectionProps) => {
 };
 
 const WorkExperienceSection = ({
-  resume: { workExperience },
+  resume: { workExperience, colorHex },
 }: ResumeSectionProps) => {
   const workExperienceNotEmpty = workExperience?.filter(
     (exp) => Object.values(exp).filter(Boolean).length > 0,
@@ -117,13 +152,30 @@ const WorkExperienceSection = ({
 
   return (
     <section>
-      <hr className="border-2" />
+      <hr
+        className="border-2"
+        style={{
+          borderColor: colorHex,
+        }}
+      />
       <div className="space-y-3">
-        <p className="mt-1 text-lg font-bold">Work Experience</p>
+        <p
+          className="mt-1 text-lg font-bold"
+          style={{
+            color: colorHex,
+          }}
+        >
+          Work Experience
+        </p>
       </div>
       {workExperienceNotEmpty.map((exp, index) => (
         <div key={index} className="break-inside-avoid space-y-1">
-          <div className="item-center font-semi-bold flex justify-between text-sm">
+          <div
+            className="item-center font-semi-bold flex justify-between text-sm"
+            style={{
+              color: colorHex,
+            }}
+          >
             <span>{exp.position}</span>
             {exp.startDate && (
               <span>
@@ -142,7 +194,9 @@ const WorkExperienceSection = ({
   );
 };
 
-const EducationSection = ({ resume: { education } }: ResumeSectionProps) => {
+const EducationSection = ({
+  resume: { education, colorHex },
+}: ResumeSectionProps) => {
   const educationNotEmpty = education?.filter(
     (edu) => Object.values(edu).filter(Boolean).length > 0,
   );
@@ -151,13 +205,30 @@ const EducationSection = ({ resume: { education } }: ResumeSectionProps) => {
 
   return (
     <section>
-      <hr className="border-2" />
+      <hr
+        className="border-2"
+        style={{
+          borderColor: colorHex,
+        }}
+      />
       <div className="space-y-3">
-        <p className="mt-1 text-lg font-bold">Education</p>
+        <p
+          className="mt-1 text-lg font-bold"
+          style={{
+            color: colorHex,
+          }}
+        >
+          Education
+        </p>
       </div>
       {educationNotEmpty.map((edu, index) => (
         <div key={index} className="break-inside-avoid space-y-1">
-          <div className="item-center font-semi-bold flex justify-between text-sm">
+          <div
+            className="item-center font-semi-bold flex justify-between text-sm"
+            style={{
+              color: colorHex,
+            }}
+          >
             <span>{edu.degree}</span>
             {edu.startDate && (
               <span>
@@ -172,19 +243,36 @@ const EducationSection = ({ resume: { education } }: ResumeSectionProps) => {
   );
 };
 
-const SkillsSection = ({ resume: { skills } }: ResumeSectionProps) => {
+const SkillsSection = ({
+  resume: { skills, colorHex },
+}: ResumeSectionProps) => {
   if (!skills?.length) return null;
 
   return (
     <section>
-      <hr className="border-2" />
+      <hr
+        className="border-2"
+        style={{
+          borderColor: colorHex,
+        }}
+      />
       <div className="break-inside-avoid space-y-3">
-        <p className="mt-1 text-lg font-bold">Skills</p>
+        <p
+          className="mt-1 text-lg font-bold"
+          style={{
+            color: colorHex,
+          }}
+        >
+          Skills
+        </p>
         <div className="flex break-inside-avoid flex-wrap gap-2">
           {skills?.map((skill, index) => (
             <Badge
               key={index}
               className="rounded-md bg-black text-white hover:bg-black"
+              style={{
+                backgroundColor: colorHex,
+              }}
             >
               {skill}
             </Badge>

@@ -73,6 +73,8 @@ export const resumeFormSchema = z.object({
   ...educationSchema.shape,
   ...skillsSchema.shape,
   ...summarySchema.shape,
+  colorHex: optionalString,
+  borderStyle: optionalString,
 });
 
 export type TGeneralInfoForm = z.infer<typeof generalInfoFormSchema>;
