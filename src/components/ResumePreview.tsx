@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 
-import { TResumeFormValues } from "@/lib/validation";
-import { cn } from "@/lib/utils";
-import useDimensions from "@/hooks/use-dimensions";
 import Image from "next/image";
 import { formatDate } from "date-fns";
+
+import useDimensions from "@/hooks/use-dimensions";
+import { cn } from "@/lib/utils";
+import { TResumeFormValues } from "@/lib/validation";
+import { Badge } from "@/components/ui/badge";
 
 type ResumePreviewProps = {
   resume: TResumeFormValues;
@@ -32,6 +34,8 @@ const ResumePreview = ({ resume, className }: ResumePreviewProps) => {
         <PersonalInfoHeader resume={resume} />
         <SummarySection resume={resume} />
         <WorkExperienceSection resume={resume} />
+        <EducationSection resume={resume} />
+        <SkillsSection resume={resume} />
       </div>
     </div>
   );
@@ -134,6 +138,59 @@ const WorkExperienceSection = ({
           </div>
         </div>
       ))}
+    </section>
+  );
+};
+
+const EducationSection = ({ resume: { education } }: ResumeSectionProps) => {
+  const educationNotEmpty = education?.filter(
+    (edu) => Object.values(edu).filter(Boolean).length > 0,
+  );
+
+  if (!educationNotEmpty?.length) return null;
+
+  return (
+    <section>
+      <hr className="border-2" />
+      <div className="space-y-3">
+        <p className="mt-1 text-lg font-bold">Education</p>
+      </div>
+      {educationNotEmpty.map((edu, index) => (
+        <div key={index} className="break-inside-avoid space-y-1">
+          <div className="item-center font-semi-bold flex justify-between text-sm">
+            <span>{edu.degree}</span>
+            {edu.startDate && (
+              <span>
+                {`${formatDate(edu.startDate, "MM/yyyy")} ${edu.endDate ? `- ${formatDate(edu.endDate, "MM/yyyy")}` : ""}`}
+              </span>
+            )}
+          </div>
+          <p className="text-xs font-semibold">{edu.school}</p>
+        </div>
+      ))}
+    </section>
+  );
+};
+
+const SkillsSection = ({ resume: { skills } }: ResumeSectionProps) => {
+  if (!skills?.length) return null;
+
+  return (
+    <section>
+      <hr className="border-2" />
+      <div className="break-inside-avoid space-y-3">
+        <p className="mt-1 text-lg font-bold">Skills</p>
+        <div className="flex break-inside-avoid flex-wrap gap-2">
+          {skills?.map((skill, index) => (
+            <Badge
+              key={index}
+              className="rounded-md bg-black text-white hover:bg-black"
+            >
+              {skill}
+            </Badge>
+          ))}
+        </div>
+      </div>
     </section>
   );
 };
