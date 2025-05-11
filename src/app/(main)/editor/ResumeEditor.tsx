@@ -7,6 +7,7 @@ import BreadCrumbs from "@/app/(main)/editor/BreadCrumbs";
 import Footer from "@/app/(main)/editor/Footer";
 import { useState } from "react";
 import { TResumeFormValues } from "@/lib/validation";
+import ResumePreviewSection from "@/app/(main)/editor/ResumePreviewSection";
 
 const ResumeEditor = () => {
   const [resumeData, setResumeData] = useState<TResumeFormValues>({});
@@ -44,9 +45,10 @@ const ResumeEditor = () => {
             )}
           </div>
           <div className="grow md:border-r" />
-          <div className="hidden w-1/2 md:flex">
-            <pre>{JSON.stringify(resumeData, null, 2)}</pre>
-          </div>
+          <ResumePreviewSection
+            resume={resumeData}
+            setResumeValues={setResumeData}
+          />
         </div>
       </main>
       <Footer currentStep={currentStep} setCurrentStep={setStep} />
