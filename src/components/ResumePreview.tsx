@@ -7,6 +7,7 @@ import useDimensions from "@/hooks/use-dimensions";
 import { cn } from "@/lib/utils";
 import { TResumeFormValues } from "@/lib/validation";
 import { Badge } from "@/components/ui/badge";
+import { BORDER_STYLES } from "@/app/(main)/editor/BorderStyleButton";
 
 type ResumePreviewProps = {
   resume: TResumeFormValues;
@@ -58,6 +59,7 @@ const PersonalInfoHeader = ({ resume }: ResumeSectionProps) => {
     phone,
     email,
     colorHex,
+    borderStyle,
   } = resume;
 
   const [photoSrc, setPhotoSrc] = useState(photo instanceof File ? "" : photo);
@@ -80,6 +82,14 @@ const PersonalInfoHeader = ({ resume }: ResumeSectionProps) => {
           width={100}
           height={100}
           className="aspect-square object-cover"
+          style={{
+            borderRadius:
+              borderStyle === BORDER_STYLES.SQUARE
+                ? "0px"
+                : borderStyle === BORDER_STYLES.CIRCLE
+                  ? "9999px"
+                  : "10%",
+          }}
         />
       )}
       <div className="space-y-2.5">
@@ -244,7 +254,7 @@ const EducationSection = ({
 };
 
 const SkillsSection = ({
-  resume: { skills, colorHex },
+  resume: { skills, colorHex, borderStyle },
 }: ResumeSectionProps) => {
   if (!skills?.length) return null;
 
@@ -272,6 +282,12 @@ const SkillsSection = ({
               className="rounded-md bg-black text-white hover:bg-black"
               style={{
                 backgroundColor: colorHex,
+                borderRadius:
+                  borderStyle === BORDER_STYLES.SQUARE
+                    ? "0px"
+                    : borderStyle === BORDER_STYLES.CIRCLE
+                      ? "9999px"
+                      : "8px",
               }}
             >
               {skill}
