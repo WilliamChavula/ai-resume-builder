@@ -13,10 +13,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { TResumeFormProps } from "@/lib/types";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { debounce } from "@/lib/debounce";
+import { Button } from "@/components/ui/button";
 
 const PersonalInfoForm = ({ resume, setResumeData }: TResumeFormProps) => {
+  const photoInputRef = useRef<HTMLInputElement>(null);
   const form = useForm<TPersonalInfoForm>({
     resolver: zodResolver(personalInfoFormSchema),
     defaultValues: {
@@ -60,17 +62,33 @@ const PersonalInfoForm = ({ resume, setResumeData }: TResumeFormProps) => {
             render={({ field: { value, ...attrs } }) => (
               <FormItem>
                 <FormLabel htmlFor="id-photo">Your photo</FormLabel>
-                <FormControl>
-                  <Input
-                    {...attrs}
-                    type="file"
-                    accept="image/*"
-                    onChange={(evt) => {
-                      const file = evt.target.files?.[0];
-                      attrs.onChange(file);
+                <div className="flex items-center gap-2">
+                  <FormControl>
+                    <Input
+                      {...attrs}
+                      type="file"
+                      accept="image/*"
+                      onChange={(evt) => {
+                        const file = evt.target.files?.[0];
+                        attrs.onChange(file);
+                      }}
+                      ref={photoInputRef}
+                    />
+                  </FormControl>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={() => {
+                      attrs.onChange(null);
+
+                      if (photoInputRef.current) {
+                        photoInputRef.current.value = "";
+                      }
                     }}
-                  />
-                </FormControl>
+                  >
+                    Remove
+                  </Button>
+                </div>
                 <FormMessage />
               </FormItem>
             )}
