@@ -69,9 +69,7 @@ const PersonalInfoHeader = ({ resume }: ResumeSectionProps) => {
 
     if (photoUrl) setPhotoSrc(photoUrl);
 
-    if (photoUrl === "") setPhotoSrc(photoUrl);
-
-    if (photoUrl === null) setPhotoSrc("");
+    if (!photoUrl) setPhotoSrc("");
 
     return () => URL.revokeObjectURL(photoUrl);
   }, [photo]);
