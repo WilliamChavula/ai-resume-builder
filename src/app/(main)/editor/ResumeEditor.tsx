@@ -8,9 +8,12 @@ import Footer from "@/app/(main)/editor/Footer";
 import { useState } from "react";
 import { TResumeFormValues } from "@/lib/validation";
 import ResumePreviewSection from "@/app/(main)/editor/ResumePreviewSection";
+import { cn } from "@/lib/utils";
 
 const ResumeEditor = () => {
   const [resumeData, setResumeData] = useState<TResumeFormValues>({});
+  const [showResumeMobile, setShowResumeMobile] = useState(false);
+
   const params = useSearchParams();
   const currentStep = params.get("step") || steps[0].key;
 
@@ -35,7 +38,12 @@ const ResumeEditor = () => {
       </header>
       <main className="relative grow">
         <div className="absolute top-0 bottom-0 flex w-full">
-          <div className="w-full space-y-6 overflow-y-auto p-3 md:w-1/2">
+          <div
+            className={cn(
+              "w-full space-y-6 overflow-y-auto p-3 md:block md:w-1/2",
+              showResumeMobile && "hidden",
+            )}
+          >
             <BreadCrumbs currentStep={currentStep} setCurrentStep={setStep} />
             {FormComponent && (
               <FormComponent
@@ -48,10 +56,16 @@ const ResumeEditor = () => {
           <ResumePreviewSection
             resume={resumeData}
             setResumeValues={setResumeData}
+            className={cn(showResumeMobile && "flex")}
           />
         </div>
       </main>
-      <Footer currentStep={currentStep} setCurrentStep={setStep} />
+      <Footer
+        currentStep={currentStep}
+        setCurrentStep={setStep}
+        showResumeMobile={showResumeMobile}
+        setShowResumeMobile={setShowResumeMobile}
+      />
     </div>
   );
 };
