@@ -74,8 +74,6 @@ const PersonalInfoHeader = ({ resume }: ResumeSectionProps) => {
     return () => URL.revokeObjectURL(photoUrl);
   }, [photo]);
 
-  console.log({ photoSrc });
-
   return (
     <section className="flex items-center gap-6">
       {photoSrc && (

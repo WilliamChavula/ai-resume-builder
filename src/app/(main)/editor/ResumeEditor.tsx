@@ -33,7 +33,7 @@ const ResumeEditor = () => {
         <h1 className="text-2xl font-bold">Design your resume</h1>
         <p className="text-muted-foreground text-sm">
           Follow the steps below to create your resume. Your progress will be
-          saves automatically.
+          saved automatically.
         </p>
       </header>
       <main className="relative grow">
