@@ -1,16 +1,18 @@
 "use client";
 
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-import { steps } from "@/app/(main)/editor/steps";
-import BreadCrumbs from "@/app/(main)/editor/BreadCrumbs";
-import Footer from "@/app/(main)/editor/Footer";
-import { useState } from "react";
-import { TResumeFormValues } from "@/lib/validation";
-import ResumePreviewSection from "@/app/(main)/editor/ResumePreviewSection";
 import { cn } from "@/lib/utils";
 import { useAutoSave } from "@/hooks/use-auto-save";
 import useUnloadWarning from "@/hooks/use-unload-warning";
+import { steps } from "@/app/(main)/editor/steps";
+
+import { TResumeFormValues } from "@/lib/validation";
+
+import BreadCrumbs from "@/app/(main)/editor/BreadCrumbs";
+import Footer from "@/app/(main)/editor/Footer";
+import ResumePreviewSection from "@/app/(main)/editor/ResumePreviewSection";
 
 const ResumeEditor = () => {
   const [resumeData, setResumeData] = useState<TResumeFormValues>({});
