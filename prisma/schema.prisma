@@ -29,7 +29,7 @@ model Resume {
   skills         String[]
   photoUrl       String?          @map("photo_url")
   colorHex       String           @default("#000000") @map("color_hex")
-  borderStryle   String           @default("squircle") @map("border_style")
+  borderStyle    String           @default("squircle") @map("border_style")
   summary        String?
   createdAt      DateTime         @default(now()) @map("created_at")
   updatedAt      DateTime         @updatedAt @map("updated_at")
