@@ -9,10 +9,14 @@ import { useState } from "react";
 import { TResumeFormValues } from "@/lib/validation";
 import ResumePreviewSection from "@/app/(main)/editor/ResumePreviewSection";
 import { cn } from "@/lib/utils";
+import { useAutoSave } from "@/hooks/use-auto-save";
+import useUnloadWarning from "@/hooks/use-unload-warning";
 
 const ResumeEditor = () => {
   const [resumeData, setResumeData] = useState<TResumeFormValues>({});
   const [showResumeMobile, setShowResumeMobile] = useState(false);
+  const { isSaving, hasUnsavedChanges } = useAutoSave(resumeData);
+  useUnloadWarning(hasUnsavedChanges);
 
   const params = useSearchParams();
   const currentStep = params.get("step") || steps[0].key;
@@ -65,6 +69,7 @@ const ResumeEditor = () => {
         setCurrentStep={setStep}
         showResumeMobile={showResumeMobile}
         setShowResumeMobile={setShowResumeMobile}
+        isSaving={isSaving}
       />
     </div>
   );
