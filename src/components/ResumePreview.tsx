@@ -67,9 +67,13 @@ const PersonalInfoHeader = ({ resume }: ResumeSectionProps) => {
   useEffect(() => {
     const photoUrl = photo instanceof File ? URL.createObjectURL(photo) : "";
 
-    if (photoUrl) setPhotoSrc(photoUrl);
+    if (photoUrl) {
+      setPhotoSrc(photoUrl);
+    }
 
-    if (!photoUrl) setPhotoSrc("");
+    if (!photoUrl) {
+      setPhotoSrc("");
+    }
 
     return () => URL.revokeObjectURL(photoUrl);
   }, [photo]);
