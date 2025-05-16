@@ -12,8 +12,6 @@ export async function saveResume(resume: TResumeFormValues) {
   const { userId } = await auth();
   const { id } = resume;
 
-  console.log(`Received Data: ${resume}`);
-
   const { photo, workExperience, education, ...rest } =
     resumeFormSchema.parse(resume);
 

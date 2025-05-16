@@ -38,6 +38,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { CSS } from "@dnd-kit/utilities";
 import { cn } from "@/lib/utils";
 import { handleDragEnd } from "@/app/(main)/editor/forms/drag-helper";
+import GenerateWorkExperienceButton from "@/app/(main)/editor/forms/GenerateWorkExperienceButton";
 
 const WorkExperienceForm = ({ resume, setResumeData }: TResumeFormProps) => {
   const form = useForm<TWorkExperienceForm>({
@@ -170,10 +171,18 @@ const WorkExperienceItem = ({
     >
       <div className="flex justify-between gap-2">
         <span className="font-semibold">Work experience {index + 1}</span>
+
         <GripHorizontal
           className="text-muted-foreground size-5 cursor-grab focus:outline-none"
           {...attributes}
           {...listeners}
+        />
+      </div>
+      <div className="flex justify-center">
+        <GenerateWorkExperienceButton
+          onWorkExperienceGenerated={(exp) =>
+            form.setValue(`workExperience.${index}`, exp)
+          }
         />
       </div>
       <FormField

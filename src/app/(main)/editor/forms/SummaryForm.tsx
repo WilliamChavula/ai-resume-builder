@@ -14,8 +14,10 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import GenerateSummaryButton from "@/app/(main)/editor/forms/GenerateSummaryButton";
 
 const SummaryForm = ({ resume, setResumeData }: TResumeFormProps) => {
   const form = useForm<TSummary>({
@@ -68,6 +70,13 @@ const SummaryForm = ({ resume, setResumeData }: TResumeFormProps) => {
                 <FormDescription>
                   A brief engaging professional bio.
                 </FormDescription>
+                <FormMessage />
+                <GenerateSummaryButton
+                  resume={resume}
+                  onSummaryGenerated={(summary) => {
+                    form.setValue("summary", summary);
+                  }}
+                />
               </FormItem>
             )}
           />

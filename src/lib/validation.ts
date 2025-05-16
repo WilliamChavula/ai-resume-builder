@@ -77,12 +77,37 @@ export const resumeFormSchema = z.object({
   borderStyle: optionalString,
 });
 
+export const generateSummarySchema = z.object({
+  jobTitle: optionalString,
+  ...workExperienceSchema.shape,
+  ...educationSchema.shape,
+  ...skillsSchema.shape,
+});
+
+export const generateWorkExperienceSchema = z.object({
+  description: z
+    .string({
+      message:
+        "Please describe your job experience for AI to fill your work experience fields",
+    })
+    .min(20, {
+      message: "You description should at least be 20 characters long",
+    }),
+});
+
 export type TGeneralInfoForm = z.infer<typeof generalInfoFormSchema>;
 export type TPersonalInfoForm = z.infer<typeof personalInfoFormSchema>;
 export type TWorkExperienceForm = z.infer<typeof workExperienceSchema>;
+export type TWorkExperience = NonNullable<
+  z.infer<typeof workExperienceSchema>["workExperience"]
+>[number];
 export type TEducationForm = z.infer<typeof educationSchema>;
 export type TSkills = z.infer<typeof skillsSchema>;
 export type TSummary = z.infer<typeof summarySchema>;
+export type TGenerateSummary = z.infer<typeof generateSummarySchema>;
+export type TGenerateWorkExperience = z.infer<
+  typeof generateWorkExperienceSchema
+>;
 export type TResumeFormValues = Omit<
   z.infer<typeof resumeFormSchema>,
   "photo"
