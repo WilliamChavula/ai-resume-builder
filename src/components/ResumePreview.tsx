@@ -65,14 +65,17 @@ const PersonalInfoHeader = ({ resume }: ResumeSectionProps) => {
   const [photoSrc, setPhotoSrc] = useState(photo instanceof File ? "" : photo);
 
   useEffect(() => {
-    const photoUrl = photo instanceof File ? URL.createObjectURL(photo) : "";
+    let photoUrl: string = "";
+    if (photo instanceof File) {
+      photoUrl = photo instanceof File ? URL.createObjectURL(photo) : "";
 
-    if (photoUrl) {
-      setPhotoSrc(photoUrl);
-    }
+      if (photoUrl) {
+        setPhotoSrc(photoUrl);
+      }
 
-    if (!photoUrl) {
-      setPhotoSrc("");
+      if (!photoUrl) {
+        setPhotoSrc("");
+      }
     }
 
     return () => URL.revokeObjectURL(photoUrl);
@@ -184,7 +187,7 @@ const WorkExperienceSection = ({
         </p>
       </div>
       {workExperienceNotEmpty.map((exp, index) => (
-        <div key={index} className="break-inside-avoid space-y-1">
+        <div key={index} className="break-inside-avoid space-y-2">
           <div
             className="item-center font-semi-bold flex justify-between text-sm"
             style={{
@@ -200,7 +203,7 @@ const WorkExperienceSection = ({
             )}
           </div>
           <p className="text-xs font-semibold">{exp.company}</p>
-          <div className="text-xs whitespace-pre-line">
+          <div className="mb-3 text-xs whitespace-pre-line">
             <p>{exp.description}</p>
           </div>
         </div>
