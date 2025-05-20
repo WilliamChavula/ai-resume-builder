@@ -7,5 +7,6 @@
         "ignoreRestSiblings": true
       }
     ]
-  }
+  },
+  "ignorePatterns": ["src/generated/prisma/**/*"]
 }
