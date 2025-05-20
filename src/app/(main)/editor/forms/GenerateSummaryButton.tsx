@@ -6,6 +6,9 @@ import { generateSummary } from "@/app/(main)/editor/forms/actions/actions";
 import { TResumeFormValues } from "@/lib/validation";
 
 import LoadingButton from "@/components/LoadingButton";
+import { useSubscriptionTier } from "@/app/(main)/_providers/SubscriptionTierProvider";
+import usePremiumModal from "@/hooks/use-premium-modal";
+import { canUseAITools } from "@/lib/permissions";
 
 interface GenerateSummaryButtonProps {
   resume: TResumeFormValues;
@@ -16,10 +19,15 @@ const GenerateSummaryButton = (props: GenerateSummaryButtonProps) => {
   const { onSummaryGenerated, resume } = props;
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const subscriptionTier = useSubscriptionTier();
+  const { setOpen } = usePremiumModal();
 
   const handleClick = async () => {
-    // Todo: Block for non-premium users
     try {
+      if (!canUseAITools(subscriptionTier)) {
+        setOpen(true);
+        return;
+      }
       setIsLoading(true);
       const aiResponse = await generateSummary(resume);
       onSummaryGenerated(aiResponse);
@@ -46,4 +54,4 @@ const GenerateSummaryButton = (props: GenerateSummaryButtonProps) => {
   );
 };
 
-export  default GenerateSummaryButton;
+export default GenerateSummaryButton;

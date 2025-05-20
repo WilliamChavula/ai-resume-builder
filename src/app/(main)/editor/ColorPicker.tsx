@@ -7,6 +7,9 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Palette } from "lucide-react";
+import { useSubscriptionTier } from "@/app/(main)/_providers/SubscriptionTierProvider";
+import usePremiumModal from "@/hooks/use-premium-modal";
+import { canUseCustomizations } from "@/lib/permissions";
 
 interface ColorPickerProps {
   color: Color | undefined;
@@ -15,6 +18,8 @@ interface ColorPickerProps {
 
 const ColorPicker = ({ color, onColorChange }: ColorPickerProps) => {
   const [showPopover, setShowPopover] = useState<boolean>(false);
+  const subscriptionTier = useSubscriptionTier();
+  const { setOpen } = usePremiumModal();
   return (
     <Popover open={showPopover} onOpenChange={setShowPopover}>
       <PopoverTrigger asChild>
@@ -22,7 +27,13 @@ const ColorPicker = ({ color, onColorChange }: ColorPickerProps) => {
           variant="outline"
           size="icon"
           title="Change resume color"
-          onClick={() => setShowPopover(true)}
+          onClick={() => {
+            if (!canUseCustomizations(subscriptionTier)) {
+              setOpen(true);
+              return;
+            }
+            setShowPopover(true);
+          }}
         >
           <Palette className="size-5" />
         </Button>

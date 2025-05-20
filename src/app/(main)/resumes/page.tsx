@@ -7,6 +7,8 @@ import { resumeWithInclude } from "@/lib/types";
 
 import ResumeItem from "@/app/(main)/resumes/ResumeItem";
 import CreateResumeButton from "@/app/(main)/resumes/components/CreateResumeButton";
+import { getUserSubscriptionTier } from "@/lib/subscription";
+import { canCreateResume } from "@/lib/permissions";
 
 export const metadata: Metadata = {
   title: "Your resumes",
@@ -19,7 +21,7 @@ async function Page() {
     return redirectToSignIn();
   }
 
-  const [resumes, totalCount] = await Promise.all([
+  const [resumes, totalCount, subscriptionTier] = await Promise.all([
     prisma.resume.findMany({
       where: {
         userId,
@@ -30,13 +32,16 @@ async function Page() {
       include: resumeWithInclude,
     }),
     prisma.resume.count({ where: { userId } }),
+    getUserSubscriptionTier(userId),
   ]);
 
   // Todo: Check quota for non-premium users
 
   return (
     <main className="mx-auto w-full max-w-7xl space-y-6 px-3 py-6">
-      <CreateResumeButton canCreate={totalCount < 1} />
+      <CreateResumeButton
+        canCreate={canCreateResume(subscriptionTier, totalCount)}
+      />
       <div className="space-y-1">
         <h1 className="text-3xl font-bold">Your resumes</h1>
         <p>Total: {totalCount}</p>

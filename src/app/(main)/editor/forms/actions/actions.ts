@@ -8,9 +8,22 @@ import {
   TWorkExperience,
 } from "@/lib/validation";
 import openai from "@/lib/openai";
+import { auth } from "@clerk/nextjs/server";
+import { canUseAITools } from "@/lib/permissions";
+import { getUserSubscriptionTier } from "@/lib/subscription";
 
 export const generateSummary = async (input: TGenerateSummary) => {
-  // Todo: Switch off for non-premium users
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+
+  const subscriptionTier = await getUserSubscriptionTier(userId);
+
+  if (!canUseAITools(subscriptionTier)) {
+    throw new Error("AI Tools not available on current tier");
+  }
 
   const { jobTitle, workExperience, education, skills } =
     generateSummarySchema.parse(input);
@@ -71,7 +84,17 @@ export const generateSummary = async (input: TGenerateSummary) => {
 export const generateWorkExperience = async (
   input: TGenerateWorkExperience,
 ) => {
-  // Todo: Switch off for non-premium users
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("Unauthorized");
+  }
+
+  const subscriptionTier = await getUserSubscriptionTier(userId);
+
+  if (!canUseAITools(subscriptionTier)) {
+    throw new Error("AI Tools not available on current tier");
+  }
   const { description } = generateWorkExperienceSchema.parse(input);
 
   const systemMessage = `
