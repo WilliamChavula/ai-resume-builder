@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { Ref, useEffect, useRef, useState } from "react";
 
 import Image from "next/image";
 import { formatDate } from "date-fns";
@@ -12,9 +12,14 @@ import { BORDER_STYLES } from "@/app/(main)/editor/BorderStyleButton";
 type ResumePreviewProps = {
   resume: TResumeFormValues;
   className?: string;
+  contentRef?: Ref<HTMLDivElement>;
 };
 
-const ResumePreview = ({ resume, className }: ResumePreviewProps) => {
+const ResumePreview = ({
+  resume,
+  className,
+  contentRef,
+}: ResumePreviewProps) => {
   const resumePreviewRef = useRef<HTMLDivElement>(null);
   const { width } = useDimensions(resumePreviewRef);
 
@@ -27,6 +32,8 @@ const ResumePreview = ({ resume, className }: ResumePreviewProps) => {
       )}
     >
       <div
+        id="resume-preview-content"
+        ref={contentRef}
         className={cn("space-y-6 p-6", !width && "invisible")}
         style={{
           zoom: (1 / 794) * width,

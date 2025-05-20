@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { formatDate } from "date-fns";
 
-import { MoreVertical, Trash2 } from "lucide-react";
+import { MoreVertical, Printer, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { toResumeFormValuesMapper } from "@/lib/utils";
 
@@ -28,13 +28,20 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ResumeServerData } from "@/lib/types";
+import { useReactToPrint } from "react-to-print";
 
 interface ResumeItemProps {
   resume: ResumeServerData;
 }
 
 function ResumeItem({ resume }: ResumeItemProps) {
+  const contentRef = useRef<HTMLDivElement>(null);
   const wasUpdated = resume.updatedAt !== resume.createdAt;
+
+  const printFunction = useReactToPrint({
+    contentRef,
+    documentTitle: resume.title || Date.now().toString(),
+  });
 
   return (
     <div className="group hover:border-border bg-secondary relative rounded-lg border border-transparent p-3 transition-colors">
@@ -59,20 +66,26 @@ function ResumeItem({ resume }: ResumeItemProps) {
           className="relative inline-block w-full"
         >
           <ResumePreview
+            contentRef={contentRef}
             resume={toResumeFormValuesMapper(resume)}
             className="overflow-hidden shadow-sm transition-shadow group-hover:shadow-lg"
           />
           <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white to-transparent" />
         </Link>
       </div>
-      <MoreMenuActions resumeId={resume.id} />
+      <MoreMenuActions resumeId={resume.id} onPrintClick={printFunction} />
     </div>
   );
 }
 
 export default ResumeItem;
 
-function MoreMenuActions({ resumeId }: { resumeId: string }) {
+interface MoreMenuActionsProps {
+  resumeId: string;
+  onPrintClick: () => void;
+}
+
+function MoreMenuActions({ resumeId, onPrintClick }: MoreMenuActionsProps) {
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
 
   return (
@@ -93,6 +106,12 @@ function MoreMenuActions({ resumeId }: { resumeId: string }) {
             onClick={() => setShowConfirmationDialog(true)}
           >
             <Trash2 className="size-4 text-red-500" /> Delete
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="flex items-center gap-2"
+            onClick={onPrintClick}
+          >
+            <Printer className="size-4" /> Print
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
