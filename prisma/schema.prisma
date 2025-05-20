@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -66,4 +60,18 @@ model Education {
   resume    Resume    @relation(fields: resumeId, references: [id])
 
   @@map("education")
+}
+
+model UserSubscription {
+  id                      String   @id @default(cuid(2))
+  userId                  String   @unique @map("user_id")
+  stripeCustomerId        String   @unique @map("stripe_customer_id")
+  stripeSubscriptionId    String   @unique @map("stripe_subscription_id")
+  stripePriceId           String   @map("stripe_price_id")
+  stripeCurrentPeriodEnd  DateTime @map("stripe_current_period_end")
+  stripeCancelAtPeriodEnd Boolean  @default(false)
+  createdAt               DateTime @default(now()) @map("created_at")
+  updatedAt               DateTime @updatedAt @map("updated_at")
+
+  @@map("user_subscriptions")
 }
