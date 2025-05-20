@@ -30,6 +30,9 @@ export default createEnv({
     STRIPE_SECRET_KEY: z
       .string()
       .nonempty({ message: "STRIPE_SECRET_KEY is required" }),
+    STRIPE_WEBHOOK_SECRET: z
+      .string()
+      .nonempty({ message: "STRIPE_SECRET_KEY is required" }),
   },
   client: {
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z
