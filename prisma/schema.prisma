@@ -36,7 +36,7 @@ model Resume {
 model WorkExperience {
   id          String    @id @default(cuid(2))
   resumeId    String    @map("resume_id")
-  resume      Resume    @relation(fields: resumeId, references: [id])
+  resume      Resume    @relation(fields: resumeId, references: [id], onDelete: Cascade)
   position    String?
   company     String?
   startDate   DateTime? @map("start_date")
@@ -57,7 +57,7 @@ model Education {
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
   resumeId  String    @map("resume_id")
-  resume    Resume    @relation(fields: resumeId, references: [id])
+  resume    Resume    @relation(fields: resumeId, references: [id], onDelete: Cascade)
 
   @@map("education")
 }
